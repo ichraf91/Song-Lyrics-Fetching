@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Lyrics Scraper</title>
+    <script type="text/javascript"src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js">
+    </script>
+    <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+   <style>
+     #lyrics{
+      display: block;font-family: monospace;white-space: pre;margin: 1em 0;
+      font-size:16px;line-height:25px;border: solid 2px black;display: none;
+      }
+   </style>
+  </head>
+  <body>
+    <div class="container text-center">
+      <div class="col-md-12">
+        <h1 style="font-weight: lighter;font-size: 50px;font-family:cursive;">Lyrics Scraper</h1>
+        <br>
+        <form action="javascript:Search()" class="form-inline">
+          <div class="form-group mx-sm-3 mb-2">
+            <label for="query" class="sr-only">Password</label>
+            <input placeholder="Search Music .." autocomplete="off" type="text" class="form-control" id="query" >
+          </div>
+          <button type="submit" class="btn btn-success mb-2">Search</button>
+        </form>
+      </div>
+      <br><br><br><br><br><br>
+
+      <div class="col-md-12 ">
+        <pre id="lyrics"></pre>
+      </div>
+    </div>
+    <footer class="text-center">
+     
+    </footer>
+
+    <script type="text/javascript">
+    function Search(){  
+    var query=$('#query').val();
+    $('#lyrics').css('display','none')
+    console.log(query);
+      $.get('/getmusic/'+query,function(data,status){
+        // alert('Data Received');
+        console.log(data);
+        if(data.length<3)
+        $("#lyrics").text('Lyrics Not Found ;(');
+        else
+        $("#lyrics").text(data);
+        $('#lyrics').css('display','block')
+      });
+    }
+    /*Enter to Search*/
+    document.getElementById('query').onkeypress = function(e){
+        if (!e) e = window.event;
+        var keyCode = e.keyCode || e.which;
+        if (keyCode == '13'){
+          // Enter pressed
+          Search();
+          return false;
+        }
+    }
+    </script>
+  </body>
+</html>
